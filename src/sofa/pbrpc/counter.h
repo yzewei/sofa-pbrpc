@@ -61,11 +61,13 @@ public:
     AtomicCounter64(uint64_t init) : _counter(init) {}
     uint64_t operator ++ ()
     {
-        return atomic_inc_ret_old64(&_counter) + 1LU;
+        return atomic_inc_ret_old(&_counter) + 1LU;
+	//return atomic_inc_ret_old64(&_counter) + 1LU;
     }
     uint64_t operator -- ()
     {
-        return atomic_dec_ret_old64(&_counter) - 1LU;
+        //return atomic_dec_ret_old(&_counter) - 1LU;
+	return atomic_dec_ret_old64(&_counter) - 1LU;
     }
     operator uint64_t () const
     {

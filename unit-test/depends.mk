@@ -13,6 +13,8 @@
 ##   $(GTEST_DIR)/src/gtest-all.cc
 ##
 #GTEST_DIR=/home/users/qinzuoyan01/libs/gtest-1.7.0
-GTEST_DIR=
+#GTEST_DIR=/home/yzw/workspace/protobuf/gtest
+GTEST_DIR=/root/yzw/sofa-pbrpc/unit-test/gtest
+#GTEST_DIR=/root/yzw/googletest/googletest
 ###############################################################
 
