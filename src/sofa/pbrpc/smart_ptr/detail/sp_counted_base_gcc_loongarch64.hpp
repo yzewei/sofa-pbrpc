@@ -17,6 +17,7 @@
 
 #include <typeinfo>
 #include <iostream>
+#include <stdio.h>
 namespace sofa {
 namespace pbrpc {
 namespace detail {
@@ -33,13 +34,12 @@ inline int atomic_exchange_and_add( int * pw, int dv )
     (
        "ll.w $r12, %0\n\t"
        "add.w %2, $r0, $r12\n\t"
-       "sc.w $r12, %0\n\t"
-       "ll.w $r12, %0\n\t"
        "add.w $r12, $r12, %1\n\t"
        "sc.w $r12, %0"
        :"+m"( *pw ), "+r"( dv ), "+r"(r)
        ::"memory", "cc", "$r12"
     );
+    printf("+++++++Result: pw=%d,r=%d++++++++++++\n", *pw, r);
     return r;
 }
 
@@ -58,12 +58,6 @@ inline int atomic_conditional_increment( int * pw )
     asm(
                       "ll.w $r12, %0\n\t"
                       "add.w %1, $r0, $r12\n\t"
-                      "sc.w $r12, %0\n\t"
-                      : "+m"(*pw), "+r"(rv)
-                      :: "cc", "$r12"
-                      );
-    asm(
-		      "ll.w $r12, %0\n\t"
 		      "beqz %1, L\n\t"
 		      "addi.w $r12, $r12, 1\n\t"
 		      "sc.w $r12, %0\n\t"
@@ -71,6 +65,7 @@ inline int atomic_conditional_increment( int * pw )
 		      : "+m"(*pw), "+r"(rv), "+r"(tmp)
 		      :: "cc", "$r12"
 		      );
+    printf("++++++Result: pw=%d,rv=%d++++++++++++\n", *pw, rv);
     return rv;
 }
 
@@ -120,8 +115,10 @@ public:
 
     void release() // nothrow
     {
+	printf("into release");
         if( atomic_exchange_and_add( &use_count_, -1 ) == 1 )
         {
+            printf("+++++into if(atomic_exchange_and_add)+++++");
             dispose();
             weak_release();
         }

@@ -45,7 +45,8 @@ public:
 
     virtual void dispose() // nothrow
     {
-        sofa::pbrpc::checked_delete( px_ );
+        printf("+++into dispose()+++");
+	sofa::pbrpc::checked_delete( px_ );
     }
 
     virtual void * get_deleter( std::type_info const & )

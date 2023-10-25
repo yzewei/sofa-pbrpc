@@ -14,6 +14,7 @@
 
 #ifndef _SOFA_PBRPC_SMART_PTR_CHECKED_DELETE_
 #define _SOFA_PBRPC_SMART_PTR_CHECKED_DELETE_
+#include <stdio.h>
 
 namespace sofa {
 namespace pbrpc {
@@ -21,6 +22,7 @@ namespace pbrpc {
 template <typename T>
 inline void checked_delete(T* px)
 {
+    printf("+++into dispose next checked_delete()+++");
     typedef char type_must_be_complete[sizeof(T) ? 1 : -1 ];
     (void) sizeof(type_must_be_complete);
     delete px;
